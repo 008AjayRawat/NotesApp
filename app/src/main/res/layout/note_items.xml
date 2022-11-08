@@ -67,8 +67,10 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv"
-                    android:layout_width="42dp"
-                    android:layout_height="42dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxHeight="100dp"
+                    android:scaleType="fitCenter"
                     android:visibility="gone"
                     tools:src="@tools:sample/avatars"
                     tools:visibility="visible" />

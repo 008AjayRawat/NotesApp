@@ -5,15 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.app.notesapp.R
-import com.app.notesapp.databinding.FragmentEditBinding
 import com.app.notesapp.databinding.FragmentListBinding
 import com.app.notesapp.persistence.Note
 import com.app.notesapp.ui.adapter.NoteAdapter
@@ -55,7 +52,6 @@ class ListFragment : DaggerFragment(), NoteAdapter.Interaction {
         })
     }
 
-    // Method #4
     private fun initRecyclerView() {
         binding.recyclerView.apply {
             noteAdapter = NoteAdapter(
@@ -69,13 +65,11 @@ class ListFragment : DaggerFragment(), NoteAdapter.Interaction {
         }
     }
 
-    // Method #5
     private fun setupViewModel() {
         noteViewModel =
             ViewModelProvider(this, viewModelProviderFactory).get(NoteViewModel::class.java)
     }
 
-    // Method #6
     private fun initSwipeToDelete(): ItemTouchHelper.SimpleCallback {
         //Swipe recycler view items on RIGHT
         return object : ItemTouchHelper.SimpleCallback(
@@ -92,13 +86,12 @@ class ListFragment : DaggerFragment(), NoteAdapter.Interaction {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
                 noteViewModel.delete(allNotes[position])
-                val note = allNotes.get(position)
+                val note = allNotes[position]
                 Toast.makeText(activity, "Note Deleted", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    // Method #7
     override fun onItemSelected(position: Int, item: Note) {
         val navDirection = ListFragmentDirections.actionListFragmentToEditFragment(item)
         findNavController().navigate(navDirection)
