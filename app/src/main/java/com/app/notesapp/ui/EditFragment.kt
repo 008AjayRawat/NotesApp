@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.app.notesapp.R
@@ -33,13 +32,11 @@ class EditFragment : DaggerFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
         prepareNoteForEditing()
         setupViewModel()
 
         binding.btnEdit.setOnClickListener {
-            Navigation.findNavController(requireActivity(),R.id.container).popBackStack()
+            Navigation.findNavController(requireActivity(), R.id.container).popBackStack()
         }
     }
 
@@ -50,8 +47,8 @@ class EditFragment : DaggerFragment() {
         if (validations()) {
             Toast.makeText(activity, "Note is saved", Toast.LENGTH_SHORT).show()
             saveNote()
-            val id:Int = EditFragmentArgs.fromBundle(arguments!!).note?.id!!
-            Log.e("DEBUG","saving note $id")
+            val id: Int = EditFragmentArgs.fromBundle(arguments!!).note?.id!!
+            Log.e("DEBUG", "saving note $id")
 
         } else {
             Toast.makeText(activity, "Note is Discarded", Toast.LENGTH_SHORT).show()
@@ -62,52 +59,52 @@ class EditFragment : DaggerFragment() {
         }
     }
 
-    // Method #3
     override fun onDestroyView() {
         super.onDestroyView()
         saveNoteToDatabase()
     }
 
-    // Method #4
     private fun saveNote() {
-
         //getting the id from bundle , we are using that id to update/edit the note
-        val id:Int? = EditFragmentArgs.fromBundle(arguments!!).note?.id
+        val previousNote = EditFragmentArgs.fromBundle(arguments!!).note
+        val id: Int? = EditFragmentArgs.fromBundle(arguments!!).note?.id
 
-        val note = Note(id!!,binding.editTitle.text.toString(),binding.editDescription.text.toString(),binding.editTag.text.toString())
+        val note = Note(
+            id!!,
+            binding.editTitle.text.toString(),
+            binding.editDescription.text.toString(),
+            binding.editTag.text.toString(),
+            previousNote?.createdDate,
+            System.currentTimeMillis().toString()
+        )
 
         //If title is null set Empty Title
         if (binding.editTitle.text.isNullOrEmpty()) {
             note.title = "Empty Title"
 
-            //Call viewmodel to save the data
+            //update the data
             noteViewModel.update(note)
 
-        }else{
-            //Call viewmodel to save the data
-            Log.e("DEBUG","saving note update is called")
+        } else {
+            //update the data
+            Log.e("DEBUG", "Note update is called")
             noteViewModel.update(note)
         }
     }
 
-    // Method #5
-    fun validations(): Boolean {
+    private fun validations(): Boolean {
         return !(binding.editTitle.text.isNullOrEmpty()
-                && binding.editDescription.text.isNullOrEmpty()
-                && binding.editTag.text.isNullOrEmpty())
+                && binding.editDescription.text.isNullOrEmpty())
     }
 
 
-    // Method #6
     private fun setupViewModel() {
-        noteViewModel = ViewModelProvider(this,viewModelProviderFactory).get(NoteViewModel::class.java)
+        noteViewModel = ViewModelProvider(this, viewModelProviderFactory)[NoteViewModel::class.java]
     }
 
 
-    // Method #7
     private fun prepareNoteForEditing() {
-    // Getting the note from the bundle
-        //Save args plugin is used as i believe bundle is not good for sending large data
+        // Getting the note from the bundle
         arguments?.let {
             val safeArgs = EditFragmentArgs.fromBundle(it)
             val note = safeArgs.note

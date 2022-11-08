@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.app.notesapp.R
@@ -57,24 +56,29 @@ class AddFragment : DaggerFragment() {
 
     // Method #5
     private fun saveNote() {
-        val note = Note(0,binding.addTitle.text.toString(),binding.addDescription.text.toString(),binding.addTag.text.toString())
+        val note = Note(0,
+            binding.addTitle.text.toString(),
+            binding.addDescription.text.toString(),
+            binding.addTag.text.toString(),
+            System.currentTimeMillis().toString(),
+            System.currentTimeMillis().toString()
+            )
 
         //If title is null set Empty Title
         if (binding.addTitle.text.isNullOrEmpty()) {
            note.title = "Empty Title"
-            //Call viewmodel to save the data
+            //save the data
             noteViewModel.insert(note)
 
         }else{
-            //Call viewmodel to save the data
+            //save the data
             noteViewModel.insert(note)
         }
     }
 
     private fun validations(): Boolean {
         return !(binding.addTitle.text.isNullOrEmpty()
-                && binding.addDescription.text.isNullOrEmpty()
-                && binding.addTag.text.isNullOrEmpty())
+                && binding.addDescription.text.isNullOrEmpty())
     }
 
 

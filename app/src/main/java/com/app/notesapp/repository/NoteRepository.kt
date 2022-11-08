@@ -9,7 +9,6 @@ import javax.inject.Inject
 
 class NoteRepository @Inject constructor(val noteDao: NoteDao) {
 
-    // Method #1
     //function to insert note in database
     fun insert(note: Note) {
         CoroutineScope(Dispatchers.IO).launch {
@@ -17,7 +16,6 @@ class NoteRepository @Inject constructor(val noteDao: NoteDao) {
         }
     }
 
-    // Method #2
     //function to delete note in database
     fun delete(note: Note) {
         CoroutineScope(Dispatchers.IO).launch {
@@ -25,7 +23,6 @@ class NoteRepository @Inject constructor(val noteDao: NoteDao) {
         }
     }
 
-    // Method #3
     //function to delete note by Id in database
     fun deleteById(id: Int) {
         CoroutineScope(Dispatchers.IO).launch {
@@ -33,7 +30,6 @@ class NoteRepository @Inject constructor(val noteDao: NoteDao) {
         }
     }
 
-    // Method #4
     //function to update note in database
     fun update(note: Note) {
         CoroutineScope(Dispatchers.IO).launch {
@@ -43,7 +39,6 @@ class NoteRepository @Inject constructor(val noteDao: NoteDao) {
         }
     }
 
-    // Method #5
     //function to get all notes in database
     fun getAllNotes(): LiveData<List<Note>>{
         return noteDao.getAllNotes()

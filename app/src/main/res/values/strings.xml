@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">NotesApp</string>
     <string name="desc">Add description for your note ..</string>
-    <string name="tag">Extra Desc</string>
+    <string name="tag">Image Url</string>
     <string name="save_note">Save Note</string>
     <string name="title">Title</string>
     <string name="color">Color</string>
